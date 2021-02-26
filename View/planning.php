@@ -7,7 +7,6 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 		<link rel="stylesheet" href="style.css">
     </head>
-    <!-- -->
 	<body>    
         <div class="bg-dark">
             <div class="container-fluid">
@@ -24,12 +23,28 @@
                         </button>
                         <div id="navbarContent" class="collapse navbar-collapse">
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Consultation</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Modification</a>
-                                </li>
+                                <!-- if (user != student) { -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Consultation</a>
+                                    </li>                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Modification</a>
+                                    </li>     
+                                    <!-- if (user == admin) { -->
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Ajout d'utilisateur</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Ajout d'une salle</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Ajout d'un cours</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Service ETD</a>
+                                        </li>
+                                    <!-- } -->
+                                <!-- } -->
                                 <li class="nav-item">
                                     <a class="nav-link" href="index.php">Deconnexion</a>
                                 </li>
