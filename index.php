@@ -1,8 +1,7 @@
 <?php
 require_once(__DIR__ . "/view/page/app.php");
 require_once(__DIR__ . "/view/page/header.php");
-// create db for the first time
-Createdb();
+
 ?>
 
 

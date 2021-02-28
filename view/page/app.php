@@ -16,7 +16,9 @@ session_start();
 //load db
 require_once(__DIR__ . "/../../db.php");
 require_once(__DIR__ . "/../../config.php");
-//require_once(__DIR__ . "/../../classes/Messages.php");
+
+// create db for the first time
+Createdb();
 
 //load all model and controller classes
 foreach (glob(__DIR__ . "/../../classes/*.php") as $file) {
