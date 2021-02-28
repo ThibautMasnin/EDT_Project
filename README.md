@@ -13,6 +13,8 @@ Model: operations on db
 Controller: apply business logic to inject data into view, each time controller gets the data from model
 View:display content
 
+each form post request should includes 2 embedded hidden inputs with name="controller" and name="action"
+routes in the header will point to responding controller and action(method)
 
 edt.db- Table users
 Manually insert a record for admin (username:admin, password:123456)
@@ -20,3 +22,14 @@ md5(123456)=e10adc3949ba59abbe56e057f20f883e
 password is store as md5 value to mimic encrypt and decrypt
 level: 0 for admin, 1 for professor, 2 for student
 promotion: [0-4] for L1-M2
+
+
+TO CODE:
+
+focus on 3 folders: controller, model and view
+
+each time, create a db matched with a model and controller, and a subfolder with model name 
+for all the views responding to that model
+model name+Controller = Controller name
+
+In the controller, call returnView("page name") if you need to redirect page

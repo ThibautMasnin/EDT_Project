@@ -18,11 +18,7 @@ if (!empty($controller) && !empty($action)) {
         exit();
     }
 }
-// } else {
-//     Messages::setMsg("Unauthorized Access", "error");
-//     header('Location: ' . ROOT_URL . '/index.php');
-//     exit();
-// }
+
 
 
 
