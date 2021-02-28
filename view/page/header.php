@@ -1,37 +1,16 @@
 <?php
-//our entry into the web application
-
-//all the requests will pass through this file
-
-//load db
-require_once(__DIR__ . "/../../db.php");
-require_once(__DIR__ . "/../../config.php");
-//require_once(__DIR__ . "/../../classes/Messages.php");
-
-//load all model and controller classes
-foreach (glob(__DIR__ . "/../../classes/*.php") as $file) {
-    require_once $file;
-}
-foreach (glob(__DIR__ . "/../../controller/*.php") as $file) {
-    require_once $file;
-}
-foreach (glob(__DIR__ . "/../../model/*.php") as $file) {
-    require_once $file;
-}
-// server should keep session data for AT LEAST 1 hour
-ini_set('session.gc_maxlifetime', 3600);
-
-// each client should remember their session id for EXACTLY 1 hour
-
-session_set_cookie_params(3600, null, null, false, true);
-
-session_start();
 
 
-//$controller and $action passed from url for every forms
-if (isset($_GET["controller"]) && isset($_GET["action"])) {
-    $controller = $_GET["controller"];
-    $action = $_GET["action"];
+
+//$controller and $action passed from hidden input for every forms
+// to specify what controller and what method it will use
+
+// sanitize $_POST
+$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+if (isset($_POST["controller"]) && isset($_POST["action"])) {
+    $controller = $_POST["controller"];
+    $action = $_POST["action"];
 } else {
     //default: index.php
     $controller = "";
@@ -61,47 +40,52 @@ require_once(__DIR__ . "/../../middleware/routes.php");
     <link rel="stylesheet" href="<?php echo ROOT_URL ?>/view/asset/style.css?<?= time() ?>">
 </head>
 
-<body class="container">
+<body>
     <div class="container">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="<?php echo ROOT_URL ?>">Emploi du temps</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo ROOT_URL ?>">Home</a>
+                        </li>
+
+                        <?php if (isset($_SESSION['is_logged_in'])) : ?>
+                            <?php if ($_SESSION["user_data"]["level"] < ETU_ROLE) : ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/teacherPlanning.php">Teacher Planning</a>
+                                <?php endif; ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/userInformation.php">Profile</a>
+                                </li>
+                                <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/list.php">List</a>
+                                    </li>
+                                <?php endif; ?>
+                                <li class="nav-item">
+                                    <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
+                                        <input type="hidden" name="controller" value="UserController">
+                                        <input type="hidden" name="action" value="logout">
+                                        <button class="btn btn-outline-success" type="submit" name="submit" value="submit">Log out</button>
+                                    </form>
+                                </li>
+                            <?php else : ?>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/login.php">Login</a>
+                                </li>
+                            <?php endif; ?>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
         <div class="row">
             <?php Messages::display(); ?>
         </div>
-
-    </div>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="<?php echo ROOT_URL ?>">Emploi du temps</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo ROOT_URL ?>">Home</a>
-                    </li>
-
-                    <?php if (isset($_SESSION['is_logged_in'])) : ?>
-                        <?php if ($_SESSION["user_data"]["level"] < 2) : ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/teacherPlanning.php">Teacher Planning</a>
-
-                            <?php endif; ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/list.php?controller=User&action=getAll">List</a>
-                            </li>
-                            <li class="nav-item">
-                                <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>?controller=User&action=logout">
-                                    <button class="btn btn-outline-success" type="submit" name="submit" value="submit">Log out</button>
-                                </form>
-                            </li>
-                        <?php else : ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/login.php">Login</a>
-                            </li>
-                        <?php endif; ?>
-                </ul>
-
-            </div>
-        </div>
-    </nav>

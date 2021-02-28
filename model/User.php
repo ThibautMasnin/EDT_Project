@@ -9,65 +9,59 @@ class User
     public $promotion;
     public $created_at;
 
-    // put the resultset of db into contructor to return to the controller
-    public function __construct($id = "", $username = "", $level = "", $promotion = "", $created_at = "")
-    {
-        $this->id = $id;
-        $this->username = $username;
-        $this->level  = $level;
-        $this->promotion  = $promotion;
-        $this->created_at  = $created_at;
-    }
+
 
     public static function register()
     {
-        // Sanitize $_POST
-        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        $password = md5($post['password']);
 
-        if ($post['submit']) {
+
+
+        if (isset($_POST['submit'])) {
+
 
             // validate input before db operation
-            if ($post['username'] == '' || $post['level'] == '' || $post['password'] == '') {
+            if ($_POST['username'] == '' || $_POST['level'] == '' || $_POST['password'] == '') {
                 Messages::setMsg('Please Fill In All Field', 'error');
-                return;
-            }
+            } else {
 
-            try {
+                $password = md5($_POST['password']);
 
-                $db = new DB();
-                $conn = $db->Open();
-                if ($conn) {
+                try {
 
-                    $query = "INSERT INTO users ( username, password, level, promotion ) VALUES (:username, :password, :level, :promotion) ";
-                    $stmt  = $conn->prepare($query);
-                    $stmt->bindValue(':username', $post['username']);
-                    $stmt->bindValue(':password', $password);
-                    $stmt->bindValue(':level', $post['level']);
-                    $stmt->bindValue(':promotion', $post['promotion']);
-                    $stmt->execute();
-                    Messages::setMsg('Insert Successfully', 'success');
-                } else {
-                    // echo $conn;
-                    Messages::setMsg('Incorrect Login', 'error');
+                    $db = new DB();
+                    $conn = $db->Open();
+                    if ($conn) {
+
+                        $query = "INSERT INTO users ( username, password, level, promotion ) VALUES (:username, :password, :level, :promotion) ";
+                        $stmt  = $conn->prepare($query);
+                        $stmt->bindValue(':username', $_POST['username']);
+                        $stmt->bindValue(':password', $password);
+                        $stmt->bindValue(':level', $_POST['level']);
+                        $stmt->bindValue(':promotion', $_POST['promotion']);
+                        $stmt->execute();
+                        Messages::setMsg('Insert Successfully', 'success');
+                    } else {
+                        // echo $conn;
+                        Messages::setMsg('Cannot connect to db', 'error');
+                    }
+                } catch (PDOException $ex) {
+                    // echo $ex->getMessage();
+                    Messages::setMsg('SQL Exception', 'error');
                 }
-            } catch (PDOException $ex) {
-                // echo $ex->getMessage();
-                Messages::setMsg('Incorrect Login', 'error');
             }
         }
     }
 
     public static function login()
     {
-        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
         $result = [];
 
-        $password = md5($post['password']);
 
+        if (isset($_POST['submit'])) {
+            $password = md5($_POST['password']);
 
-        if ($post['submit']) {
             try {
 
                 $db = new DB();
@@ -76,10 +70,11 @@ class User
 
                     $query = "SELECT * FROM users WHERE username=:username AND password=:password";
                     $stmt  = $conn->prepare($query);
-                    $stmt->bindValue(':username', $post['username']);
+                    $stmt->bindValue(':username', $_POST['username']);
                     $stmt->bindValue(':password', $password);
                     $stmt->execute();
                     $result = $stmt->fetch();
+
                     if (!empty($result)) {
                         $_SESSION['is_logged_in'] = true;
                         $_SESSION['user_data'] = array(
@@ -87,6 +82,7 @@ class User
                             "username"    => $result['username'],
                             "level"    => $result['level']
                         );
+                        Messages::setMsg('Welcome back ' . $result['username'], 'success');
                     } else {
                         Messages::setMsg('Incorrect Login', 'error');
                     }
@@ -96,11 +92,13 @@ class User
                 }
             } catch (PDOException $ex) {
                 // echo $ex->getMessage();
-                Messages::setMsg('Cannot connect to db', 'error');
+                Messages::setMsg('SQL Exception', 'error');
             }
-        } else {
-            Messages::setMsg('Unauthrized access', 'error');
         }
+
+
+
+        Utility::removeFields($result, ["id", "password", "created_at"]);
 
         return $result;
     }
@@ -125,6 +123,7 @@ class User
             Messages::setMsg('Cannot connect to db', 'error');
         }
 
+        Utility::removeFields($result, ["password"]);
 
         return $result;
     }
@@ -153,15 +152,15 @@ class User
         }
 
 
+        Utility::removeFields($result, ["id", "password"]);
         return $result;
     }
 
     public static function update()
     {
-        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
 
-        if ($post['submit']) {
+        if (isset($_POST['submit'])) {
             try {
 
                 $db = new DB();
@@ -176,10 +175,10 @@ class User
                         . "promotion=:promotion"
                         . " where id=:id";
                     $stmt = $conn->prepare($sql);
-                    $stmt->bindValue(':username', $post["username"]);
-                    $stmt->bindValue(':level', $post["level"]);
-                    $stmt->bindValue(':promotion', $post["promotion"]);
-                    $stmt->bindValue(':id', $post["id"]);
+                    $stmt->bindValue(':username', $_POST["username"]);
+                    $stmt->bindValue(':level', $_POST["level"]);
+                    $stmt->bindValue(':promotion', $_POST["promotion"]);
+                    $stmt->bindValue(':id', $_POST["id"]);
                     $stmt->execute();
 
 
@@ -197,9 +196,9 @@ class User
 
     public static function delete()
     {
-        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        if ($post['submit']) {
+
+        if (isset($_POST['submit'])) {
             try {
 
                 $db = new DB();
@@ -208,7 +207,7 @@ class User
                 if ($conn) {
                     $sql = "delete from users " . "where id=:id";
                     $stmt = $conn->prepare($sql);
-                    $stmt->bindValue(':id', $post["id"]);
+                    $stmt->bindValue(':id', $_POST["id"]);
                     $stmt->execute();
                     Messages::setMsg('Update Successfully', 'success');
                 } else {

@@ -1,15 +1,15 @@
 <?php
 abstract class Controller
 {
-	protected $ctr;
+
 	protected $action;
 
-	public function __construct($ctr, $action)
+	public function __construct($action)
 	{
 
-		$this->ctr = $ctr;
 		$this->action = $action;
 	}
+
 
 	protected function returnView($dest)
 	{

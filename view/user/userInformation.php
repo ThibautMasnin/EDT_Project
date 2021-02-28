@@ -1,5 +1,5 @@
 <?php
-
+require_once(__DIR__ . "/../page/app.php");
 require_once(__DIR__ . "/../page/header.php");
 require_once(__DIR__ . "/../../middleware/auth.php");
 
@@ -14,15 +14,12 @@ require_once(__DIR__ . "/../../middleware/auth.php");
 <?php
 
 
+$result = new UserController('getOne');
+$result = $result->getOne();
+print_r($result);
 
-
-if (isset($_SESSION["db_res"])) {
-    print_r($_SESSION["db_res"]);
-} else {
-    $result = new UserController('User', 'getOne');
-    $result->getOne();
-}
 ?>
+
 
 
 <?php

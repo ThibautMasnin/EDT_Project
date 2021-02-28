@@ -1,5 +1,5 @@
 <?php
-
+require_once(__DIR__ . "/../page/app.php");
 require_once(__DIR__ . "/../page/header.php");
 require_once(__DIR__ . "/../../middleware/auth.php");
 ?>
@@ -19,13 +19,10 @@ require_once(__DIR__ . "/../../middleware/auth.php");
         </thead>
         <tbody id="tbody">
             <?php
-            $result = "";
-            if (isset($_SESSION["db_res"])) {
-                $result = $_SESSION["db_res"];
-            } else {
-                $result = new UserController('User', 'getOne');
-                $result->getAll();
-            }
+
+            $result = new UserController('getAll');
+            $result = $result->getAll();
+
 
             ?>
             <?php foreach ($result as $rec) : ?>
@@ -40,7 +37,10 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                     <td>
                         <div class="row">
                             <div class="col"><button class="btn-outline-info btnedit" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal">Modify</button></div>
-                            <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>?controller=User&action=delete">
+                            <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
+                                <input type="hidden" name="controller" value="UserController">
+                                <input type="hidden" name="action" value="delete">
+
                                 <input type="hidden" name="id" value="<?= $tmp_id ?>" />
                                 <div class="col"><button class="btn-outline-danger" type="submit" name="submit" value="submit">Delete</button></div>
                             </form>
@@ -62,8 +62,10 @@ require_once(__DIR__ . "/../../middleware/auth.php");
             <div class="modal-header">
                 <h5 class="modal-title">Edit</h5>
             </div>
-            <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>?controller=User&action=update">
+            <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                 <div class="modal-body">
+                    <input type="hidden" name="controller" value="UserController">
+                    <input type="hidden" name="action" value="update">
 
                     <fieldset>
                         <table>
@@ -107,8 +109,10 @@ require_once(__DIR__ . "/../../middleware/auth.php");
             <div class="modal-header">
                 <h5 class="modal-title">Add</h5>
             </div>
-            <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>?controller=User&action=register">
+            <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                 <div class="modal-body">
+                    <input type="hidden" name="controller" value="UserController">
+                    <input type="hidden" name="action" value="register">
 
                     <fieldset>
                         <table>

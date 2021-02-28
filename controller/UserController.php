@@ -5,21 +5,22 @@ class UserController extends Controller
     public function login()
     {
         $res = User::login();
-        $_SESSION["db_res"] = $res;
-
         if (!empty($res)) {
             $this->returnView('userInformation');
         }
     }
+
     public function register()
     {
-        User::register();
+        if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
+            User::register();
+        }
     }
 
     public function logout()
     {
-        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        if (isset($post["submit"])) {
+
+        if (isset($_POST["submit"])) {
 
             unset($_SESSION['is_logged_in']);
             unset($_SESSION['user_data']);
@@ -32,26 +33,33 @@ class UserController extends Controller
 
     public function getAll()
     {
-        $res = User::getAll();
-        $_SESSION["db_res"] = $res;
+        $res = [];
+        if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
+            $res = User::getAll();
+        }
 
-        $this->returnView('list');
+        return $res;
     }
 
     public function getOne()
     {
-        $res = User::getOne();
-        $_SESSION["db_res"] = $res;
-
-        $this->returnView('list');
+        $res = [];
+        if (isset($_SESSION['is_logged_in'])) {
+            $res = User::getOne();
+        }
+        return $res;
     }
 
     public function update()
     {
-        User::update();
+        if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
+            User::update();
+        }
     }
     public function delete()
     {
-        User::delete();
+        if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
+            User::delete();
+        }
     }
 }

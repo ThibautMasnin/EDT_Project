@@ -9,12 +9,10 @@
 
     </footer>
 </div>
+</div>
 <script src="<?php echo ROOT_URL ?>/view/asset/main.js"></script>
 </body>
 
 
 
 </html>
-<?php
-unset($_SESSION["db_res"]);
-?>
