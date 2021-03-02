@@ -5,9 +5,9 @@ require_once(__DIR__ . "/../../middleware/auth.php");
 ?>
 
 <div class="container">
-    <br/><br/>
+    <br /><br />
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 100px;">Ajouter</button>
-    <br/><br/>
+    <br /><br />
     <table class="table table-hover table-striped border">
         <thead class="bg-dark text-light">
             <tr>
@@ -38,14 +38,18 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                     <?php endforeach; ?>
                     <td>
                         <div class="row">
-                                <button class="btn btn-primary" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 100px;">Modifier</button>
-                            <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
-                                <input type="hidden" name="controller" value="UserController">
-                                <input type="hidden" name="action" value="delete">
+                            <div class="col-4">
 
-                                <input type="hidden" name="id" value="<?= $tmp_id ?>" />
-                                <button class="btn btn-danger" type="submit" name="submit" value="submit" style="width: 100px;">Supprimer</button>
-                            </form>
+                                <button class="btn btn-primary" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 100px;">Modifier</button>
+                            </div>
+                            <div class="col-4">
+                                <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
+                                    <input type="hidden" name="controller" value="UserController">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="id" value="<?= $tmp_id ?>" />
+                                    <button class="btn btn-danger" type="submit" name="submit" value="submit" style="width: 100px;">Supprimer</button>
+                                </form>
+                            </div>
                         </div>
                     </td>
                 </tr>
