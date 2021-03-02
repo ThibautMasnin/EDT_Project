@@ -4,9 +4,8 @@ require_once(__DIR__ . "/../page/header.php");
 require_once(__DIR__ . "/../../middleware/auth.php");
 ?>
 
-<div class="container-fluid">
     <div class="row">
-        <nav class="col-lg-2 flex-column navbar-light sidebar" style="background-color: #e3f2fd;">
+        <nav class="col-lg-2 flex-column navbar-light sidebar">
             <ul class="navbar-nav">
                 <li class="nav-item-dropdown">
                     <a href="#departementSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Départements</a>
@@ -134,8 +133,6 @@ require_once(__DIR__ . "/../../middleware/auth.php");
             </ul>
         </nav>
     </div>
-</div>
-
 
 <?php
 require_once(__DIR__ . "/../page/footer.php");

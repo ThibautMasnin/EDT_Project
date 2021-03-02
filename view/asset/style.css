@@ -3,3 +3,32 @@
     padding-left: 15px;
     border-left: 1px dashed rgba(33, 37, 41,0.25);
 }
+
+.sidebar {
+    background-color: #e3f2fd;
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        height: calc(100vh - 100px);
+        min-height: calc(100vh - 100px);
+        display: block;
+        position: absolute;
+        overflow-y: scroll;
+    }
+
+    .navbar {
+        height: 65px;
+    }
+}
+
+footer {
+    height: 35px;
+    padding: 5px;
+    bottom: 0px;
+}
+
+body, html, .container-fluid {
+    height: calc(100vh - 35px);
+    min-height: calc(100vh - 35px);
+}

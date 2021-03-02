@@ -1,32 +1,29 @@
 <?php
 require_once(__DIR__ . "/../page/app.php");
 if (isset($_SESSION['is_logged_in'])) {
-    header('Location: ' . ROOT_URL . "/view/user/userInformation.php");
+    header('Location: ' . ROOT_URL . "/view/user/planning.php");
     exit();
 }
 
 require_once(__DIR__ . "/../page/header.php");
 
 ?>
-<div class="fluid-container">
-    <div class="panel panel-default">
+<div class="container w-25"><br/><br/>
+    <div class="panel panel-default text-center">
         <div class="panel-heading">
-            <h3 class="panel-title">Login User</h3>
-        </div>
+            <h3 class="panel-title">Connexion</h3>
+        </div><br/>
         <div class="panel-body">
             <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                 <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" class="form-control">
-                </div>
+                    <input type="text" placeholder="Nom d'utilisateur" name="username" class="form-control">
+                </div><br/>
                 <div class="form-group">
-                    <label>password</label>
-                    <input type="password" name="password" class="form-control">
-                </div>
+                    <input type="password" placeholder="Mot de passe" name="password" class="form-control">
+                </div><br/>
                 <input type="hidden" name="controller" value="UserController">
                 <input type="hidden" name="action" value="login">
-                <input type="submit" name="submit" class="btn btn-primary" value="submit">
-
+                <button class="btn btn-primary" type="submit" name="submit" value="submit">Se connecter</button>
             </form>
         </div>
     </div>

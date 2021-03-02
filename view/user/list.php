@@ -5,16 +5,18 @@ require_once(__DIR__ . "/../../middleware/auth.php");
 ?>
 
 <div class="container">
-    <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
-    <table class="table table-dark table-hover table-striped">
-        <thead class="thead-dark">
+    <br/><br/>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 100px;">Ajouter</button>
+    <br/><br/>
+    <table class="table table-hover table-striped">
+        <thead class="bg-dark text-light">
             <tr>
                 <th>ID</th>
-                <th>UserName</th>
-                <th>Level</th>
+                <th>Nom d'utilisateur</th>
+                <th>Rang</th>
                 <th>Promotion</th>
-                <th>Created_at</th>
-                <th>Operation</th>
+                <th>Création</th>
+                <th>Gestion</th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -36,13 +38,13 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                     <?php endforeach; ?>
                     <td>
                         <div class="row">
-                            <div class="col"><button class="btn-outline-info btnedit" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal">Modify</button></div>
                             <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                                 <input type="hidden" name="controller" value="UserController">
                                 <input type="hidden" name="action" value="delete">
 
                                 <input type="hidden" name="id" value="<?= $tmp_id ?>" />
-                                <div class="col"><button class="btn-outline-danger" type="submit" name="submit" value="submit">Delete</button></div>
+                                <button class="btn btn-primary" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 100px;">Modifier</button>
+                                <button class="btn btn-danger" type="submit" name="submit" value="submit" style="width: 100px;">Supprimer</button>
                             </form>
                         </div>
                     </td>

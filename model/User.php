@@ -82,7 +82,7 @@ class User
                             "username"    => $result['username'],
                             "level"    => $result['level']
                         );
-                        Messages::setMsg('Welcome back ' . $result['username'], 'success');
+                        Messages::setMsg('Welcome back ' . $result['username'] . ' !', 'success');
                     } else {
                         Messages::setMsg('Incorrect Login', 'error');
                     }

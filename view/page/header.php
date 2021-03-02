@@ -41,60 +41,61 @@ require_once(__DIR__ . "/../../middleware/routes.php");
 </head>
 
 <body>
-    <div class="container-fluid bg-dark">
+    <div class="container-fluid">
 
-    <div class="row">
-            <div class="col-lg-2 navbar navbar-dark">
+        <div class="row bg-dark">
+            <div class="col-lg-2 navbar">
                 <a class="navbar-brand" href="<?php echo ROOT_URL ?>" style="color: white;">
                     <img src="<?php echo ROOT_URL ?>/view/asset/logo.png" width="30" height="30" alt="Logo">
                     Planning
                 </a>
             </div>
-            <nav class="col-lg-8 navbar navbar-expand-lg bg-dark navbar-dark">
+            <div class="col-lg-8 navbar navbar-expand-lg bg-dark navbar-dark">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div id="navbarContent" class="collapse navbar-collapse">
                     <ul class="navbar-nav">
                         <?php if (isset($_SESSION['is_logged_in'])) : ?>
-                            <li class="nav-item">
+                            <li class="nav-item px-1">
                                 <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/planning.php">Consultation</a>
                             </li>
                             <?php if ($_SESSION["user_data"]["level"] < ETU_ROLE) : ?>                     
-                                <li class="nav-item">
+                                <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Modification</a>
                                 </li>     
                             <?php endif; ?>
                             <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
-                                <li class="nav-item">
+                                <li class="nav-item px-1">
                                     <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/list.php">Utilisateurs</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Salles</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Cours</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Service ETD</a>
                                 </li>
                             <?php endif; ?>
-                            <li class="nav-item">
+                            <li class="nav-item px-1">
                                 <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/userInformation.php">Profil</a>
-                            </li>
-                            <li class="nav-item">
-                                <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
-                                    <input type="hidden" name="controller" value="UserController">
-                                    <input type="hidden" name="action" value="logout">
-                                    <button class="btn btn-outline-danger" type="submit" name="submit" value="submit">Deconnexion</button>
-                                </form>
                             </li>
                         <?php endif; ?>
                     </ul>
                 </div>
-            </nav>
+            </div>
+            <?php if (isset($_SESSION['is_logged_in'])) : ?>
+                <div class="col-lg-2 navbar">
+                    <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
+                        <input type="hidden" name="controller" value="UserController">
+                        <input type="hidden" name="action" value="logout">
+                        <button class="btn btn-outline-danger" type="submit" name="submit" value="submit">Deconnexion</button>
+                    </form>
+                </div>
+            <?php endif; ?>
         </div>
         <div class="row">
             <?php Messages::display(); ?>
         </div>
-    </div>
