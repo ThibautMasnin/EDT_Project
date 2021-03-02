@@ -38,12 +38,12 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                     <?php endforeach; ?>
                     <td>
                         <div class="row">
+                                <button class="btn btn-primary" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 100px;">Modifier</button>
                             <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                                 <input type="hidden" name="controller" value="UserController">
                                 <input type="hidden" name="action" value="delete">
 
                                 <input type="hidden" name="id" value="<?= $tmp_id ?>" />
-                                <button class="btn btn-primary" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 100px;">Modifier</button>
                                 <button class="btn btn-danger" type="submit" name="submit" value="submit" style="width: 100px;">Supprimer</button>
                             </form>
                         </div>
