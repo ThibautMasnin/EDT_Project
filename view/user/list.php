@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../../middleware/auth.php");
     <br/><br/>
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 100px;">Ajouter</button>
     <br/><br/>
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-striped border">
         <thead class="bg-dark text-light">
             <tr>
                 <th>ID</th>
