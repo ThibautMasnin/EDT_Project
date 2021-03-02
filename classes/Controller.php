@@ -16,7 +16,7 @@ abstract class Controller
 
 		// the name of view page will match the method name of the corresponding class
 
-		$view = '/../view/' . str_replace('Controller', '', get_class($this)) . '/' . $dest . '.php';
+		$view = '/view/' . str_replace('Controller', '', get_class($this)) . '/' . $dest . '.php';
 
 		header('Location: ' . ROOT_URL . $view);
 		exit();

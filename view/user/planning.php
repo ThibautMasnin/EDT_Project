@@ -4,47 +4,16 @@ require_once(__DIR__ . "/../page/header.php");
 require_once(__DIR__ . "/../../middleware/auth.php");
 ?>
 
-
-<div class="bg-dark">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-2 navbar navbar-dark">
-                <a class="navbar-brand" href="index.html" style="color: white;">
-                    <img src="<?php echo ROOT_URL ?>/view/asset/logo.png" width="30" height="30" alt="Logo">
-                    Planning
-                </a>
-            </div>
-            <nav class="col-lg-8 navbar navbar-expand-lg bg-dark navbar-dark">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div id="navbarContent" class="collapse navbar-collapse">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Consultation</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Modification</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.php">Deconnexion</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-</div>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-lg-2 flex-column navbar-light sidebar" style="background-color: #e3f2fd;">
             <ul class="navbar-nav">
                 <li class="nav-item-dropdown">
-                    <a href="#departementSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Départements</a>
+                    <a href="#departementSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Départements</a>
                     <div class="indent">
                         <ul class="collapse list-unstyled" id="departementSubmenu">
                             <li class="nav-item-dropdown">
-                                <a href="#mathSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Maths</a>
+                                <a href="#mathSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Maths</a>
                                 <div class="indent">
                                     <ul class="collapse list-unstyled" id="mathSubmenu">
                                         <li>
@@ -66,7 +35,7 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                                 </div>
                             </li>
                             <li class="nav-link-dropdown">
-                                <a href="#infoSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Info</a>
+                                <a href="#infoSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Info</a>
                                 <div class="indent">
                                     <ul class="collapse list-unstyled" id="infoSubmenu">
                                         <li>
@@ -88,7 +57,7 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                                 </div>
                             </li>
                             <li class="nav-link-dropdown">
-                                <a href="#svtSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">SVT</a>
+                                <a href="#svtSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">SVT</a>
                                 <div class="indent">
                                     <ul class="collapse list-unstyled" id="svtSubmenu">
                                         <li>
@@ -110,7 +79,7 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                                 </div>
                             </li>
                             <li class="nav-link-dropdown">
-                                <a href="#chimieSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Chimie</a>
+                                <a href="#chimieSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Chimie</a>
                                 <div class="indent">
                                     <ul class="collapse list-unstyled" id="chimieSubmenu">
                                         <li>
@@ -136,7 +105,7 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                 </li>
                 <HR>
                 <li class="nav-link-dropdown">
-                    <a href="#teacherSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Enseignants</a>
+                    <a href="#teacherSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Enseignants</a>
                     <div class="indent">
                         <ul class="collapse list-unstyled" id="teacherSubmenu">
                             <li>
@@ -150,7 +119,7 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                 </li>
                 <HR>
                 <li class="nav-link-dropdown">
-                    <a href="#coursSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Cours</a>
+                    <a href="#coursSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle">Cours</a>
                     <div class="indent">
                         <ul class="collapse list-unstyled" id="coursSubmenu">
                             <li>

@@ -41,51 +41,60 @@ require_once(__DIR__ . "/../../middleware/routes.php");
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid bg-dark">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="<?php echo ROOT_URL ?>">Emploi du temps</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="row">
+            <div class="col-lg-2 navbar navbar-dark">
+                <a class="navbar-brand" href="<?php echo ROOT_URL ?>" style="color: white;">
+                    <img src="<?php echo ROOT_URL ?>/view/asset/logo.png" width="30" height="30" alt="Logo">
+                    Planning
+                </a>
+            </div>
+            <nav class="col-lg-8 navbar navbar-expand-lg bg-dark navbar-dark">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div id="navbarContent" class="collapse navbar-collapse">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo ROOT_URL ?>">Home</a>
-                        </li>
-
                         <?php if (isset($_SESSION['is_logged_in'])) : ?>
-                            <?php if ($_SESSION["user_data"]["level"] < ETU_ROLE) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/planning.php">Consultation</a>
+                            </li>
+                            <?php if ($_SESSION["user_data"]["level"] < ETU_ROLE) : ?>                     
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/teacherPlanning.php">Teacher Planning</a>
-                                <?php endif; ?>
+                                    <a class="nav-link" href="#">Modification</a>
+                                </li>     
+                            <?php endif; ?>
+                            <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/userInformation.php">Profile</a>
+                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/list.php">Utilisateurs</a>
                                 </li>
-                                <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/list.php">List</a>
-                                    </li>
-                                <?php endif; ?>
                                 <li class="nav-item">
-                                    <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
-                                        <input type="hidden" name="controller" value="UserController">
-                                        <input type="hidden" name="action" value="logout">
-                                        <button class="btn btn-outline-success" type="submit" name="submit" value="submit">Log out</button>
-                                    </form>
+                                    <a class="nav-link" href="#">Salles</a>
                                 </li>
-                            <?php else : ?>
-
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/login.php">Login</a>
+                                    <a class="nav-link" href="#">Cours</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Service ETD</a>
                                 </li>
                             <?php endif; ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/userInformation.php">Profil</a>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
+                                    <input type="hidden" name="controller" value="UserController">
+                                    <input type="hidden" name="action" value="logout">
+                                    <button class="btn btn-outline-danger" type="submit" name="submit" value="submit">Deconnexion</button>
+                                </form>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
-
-            </div>
-        </nav>
+            </nav>
+        </div>
         <div class="row">
             <?php Messages::display(); ?>
         </div>
+    </div>

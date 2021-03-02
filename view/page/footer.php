@@ -1,10 +1,10 @@
 <div class="fixed-bottom">
-    <footer class="bg-secondary">
+    <footer class="bg-dark">
 
 
-        <div class="text-center text-white p-3">
+        <div class="text-center text-white-50 p-3">
             © 2021 Copyright:
-            <a class="text-white" href="<?php echo ROOT_URL ?>">Junhao LI && Thibaut Masnin</a>
+            <a class="text-white-50" href="<?php echo ROOT_URL ?>">Junhao LI & Thibaut Masnin</a>
         </div>
 
     </footer>
