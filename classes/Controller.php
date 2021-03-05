@@ -18,7 +18,7 @@ abstract class Controller
 
 		$view = '/view/' . str_replace('Controller', '', get_class($this)) . '/' . $dest . '.php';
 
-		header('Location: ' . ROOT_URL . $view);
+		header('Location: '  . $view);
 		exit();
 	}
 }

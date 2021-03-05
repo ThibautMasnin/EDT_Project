@@ -37,7 +37,7 @@ require_once(__DIR__ . "/../../middleware/routes.php");
     <title>Emploi du temps</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo ROOT_URL ?>/view/asset/style.css?<?= time() ?>">
+    <link rel="stylesheet" href="/view/asset/style.css?<?= time() ?>">
 </head>
 
 <body>
@@ -45,8 +45,8 @@ require_once(__DIR__ . "/../../middleware/routes.php");
 
         <div class="row bg-dark">
             <div class="col-lg-2 navbar">
-                <a class="navbar-brand" href="<?php echo ROOT_URL ?>" style="color: white;">
-                    <img src="<?php echo ROOT_URL ?>/view/asset/logo.png" width="30" height="30" alt="Logo">
+                <a class="navbar-brand" href="/" style="color: white;">
+                    <img src="/view/asset/logo.png" width="30" height="30" alt="Logo">
                     Planning
                 </a>
             </div>
@@ -58,16 +58,16 @@ require_once(__DIR__ . "/../../middleware/routes.php");
                     <ul class="navbar-nav">
                         <?php if (isset($_SESSION['is_logged_in'])) : ?>
                             <li class="nav-item px-1">
-                                <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/planning.php">Consultation</a>
+                                <a class="nav-link" href="/view/user/planning.php">Consultation</a>
                             </li>
-                            <?php if ($_SESSION["user_data"]["level"] < ETU_ROLE) : ?>                     
+                            <?php if ($_SESSION["user_data"]["level"] < ETU_ROLE) : ?>
                                 <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Modification</a>
-                                </li>     
+                                </li>
                             <?php endif; ?>
                             <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
                                 <li class="nav-item px-1">
-                                    <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/list.php">Utilisateurs</a>
+                                    <a class="nav-link" href="/view/user/list.php">Utilisateurs</a>
                                 </li>
                                 <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Salles</a>
@@ -80,7 +80,7 @@ require_once(__DIR__ . "/../../middleware/routes.php");
                                 </li>
                             <?php endif; ?>
                             <li class="nav-item px-1">
-                                <a class="nav-link" href="<?php echo ROOT_URL ?>/view/user/userInformation.php">Profil</a>
+                                <a class="nav-link" href="/view/user/userInformation.php">Profil</a>
                             </li>
                         <?php endif; ?>
                     </ul>

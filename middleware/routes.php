@@ -9,12 +9,12 @@ if (!empty($controller) && !empty($action)) {
             call($controller, $action);
         } else {
             Messages::setMsg("Not found", "error");
-            header('Location: ' . ROOT_URL . '/view/page/404.php');
+            header('Location: ' . '/view/page/404.php');
             exit();
         }
     } else {
         Messages::setMsg("Not found", "error");
-        header('Location: ' . ROOT_URL . '/view/page/404.php');
+        header('Location: '  . '/view/page/404.php');
         exit();
     }
 }
