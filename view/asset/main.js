@@ -15,3 +15,8 @@ for (let i = 0; i < buttons.length; i++) {
     });
 
 }
+
+// remove message
+setTimeout(function () {
+    document.querySelector('.message').remove();
+}, 1000);

@@ -19,14 +19,3 @@ require_once(__DIR__ . "/../../config.php");
 
 // create db for the first time
 Createdb();
-
-//load all model and controller classes
-foreach (glob(__DIR__ . "/../../classes/*.php") as $file) {
-    require_once $file;
-}
-foreach (glob(__DIR__ . "/../../controller/*.php") as $file) {
-    require_once $file;
-}
-foreach (glob(__DIR__ . "/../../model/*.php") as $file) {
-    require_once $file;
-}

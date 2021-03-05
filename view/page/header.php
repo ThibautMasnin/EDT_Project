@@ -1,6 +1,15 @@
 <?php
 
-
+//load all model and controller classes
+foreach (glob(__DIR__ . "/../../classes/*.php") as $file) {
+    require_once $file;
+}
+foreach (glob(__DIR__ . "/../../controller/*.php") as $file) {
+    require_once $file;
+}
+foreach (glob(__DIR__ . "/../../model/*.php") as $file) {
+    require_once $file;
+}
 
 //$controller and $action passed from hidden input for every forms
 // to specify what controller and what method it will use
@@ -24,7 +33,6 @@ require_once(__DIR__ . "/../../middleware/routes.php");
 
 
 
-
 ?>
 
 
@@ -41,7 +49,11 @@ require_once(__DIR__ . "/../../middleware/routes.php");
 </head>
 
 <body>
+    <div class="row message">
+        <?php Messages::display(); ?>
+    </div>
     <div class="container-fluid">
+
 
         <div class="row bg-dark">
             <div class="col-lg-2 navbar">
@@ -95,7 +107,4 @@ require_once(__DIR__ . "/../../middleware/routes.php");
                     </form>
                 </div>
             <?php endif; ?>
-        </div>
-        <div class="row">
-            <?php Messages::display(); ?>
         </div>
