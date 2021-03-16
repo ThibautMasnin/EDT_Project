@@ -11,6 +11,7 @@ class DB
             $this->conn = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . "/edt.db", 0666);
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //   $this->conn->exec('PRAGMA foreign_keys = ON;');
             return $this->conn;
         } catch (PDOException $e) {
             echo 'Connection error: ' . $e->getMessage();
@@ -77,33 +78,100 @@ function createDb()
         if ($conn) {
             $sql = "
 
-            CREATE TABLE IF NOT EXISTS `users` (
+            CREATE TABLE IF NOT EXISTS `courstype` (
                 `id` INTEGER PRIMARY KEY,
-                `username` TEXT,
-                `password` TEXT,
-                `level` INTEGER NOT NULL,
-                `promotion` INTEGER,
+                `name` TEXT,
                 `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                
               );      
             ";
             $conn->query($sql);
 
             $sql = "
-              
+
+            CREATE TABLE IF NOT EXISTS `salle` (
+                `id` INTEGER PRIMARY KEY,
+                `name` TEXT,
+                `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                
+              );      
+            ";
+            $conn->query($sql);
+            $sql = "
+
+            CREATE TABLE IF NOT EXISTS `department` (
+                `id` INTEGER PRIMARY KEY,
+                `name` TEXT,
+                `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                
+              );      
+            ";
+            $conn->query($sql);
+
+            $sql = "
+
+            CREATE TABLE IF NOT EXISTS `role` (
+                `id` INTEGER PRIMARY KEY,
+                `name` TEXT,
+                `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                
+              );      
+            ";
+            $conn->query($sql);
+
+            $sql = "
+
+            CREATE TABLE IF NOT EXISTS `promotion` (
+                `id` INTEGER PRIMARY KEY,
+                `name` TEXT,
+                `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP                
+              );      
+            ";
+            $conn->query($sql);
+
+            $sql = "
+            CREATE TABLE IF NOT EXISTS `users` (
+                `id` INTEGER PRIMARY KEY,
+                `username` TEXT,
+                `password` TEXT,
+                `level` INTEGER NOT NULL,
+                `promotion` INTEGER null,
+                `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (level) REFERENCES role (id),
+                FOREIGN KEY (promotion) REFERENCES promotion (id)
+                );
+            ";
+            $conn->query($sql);
+
+
+            $sql = "
               CREATE TABLE IF NOT EXISTS `cours` (
                 `id` INTEGER PRIMARY KEY,
-                `type` TEXT,
-                `matiere` TEXT,
-                `salle` INTEGER,
-                `prof` user NOT NULL,
-                `promo` Promotion,
-                `debut` TIMESTAMP NOT NULL,
-                `fin` TIMESTAMP NOT NULL              
+                `name` TEXT,
+                `user_id` INTEGER null,
+                `promo_id` INTEGER null,
+                `depart_id` INTEGER null,
+                FOREIGN KEY (user_id) REFERENCES users (id),   
+                FOREIGN KEY (promo_id) REFERENCES promotion (id),  
+                FOREIGN KEY (depart_id) REFERENCES department (id)
               );
             ";
             $conn->query($sql);
 
-            $sql = "INSERT or ignore INTO users(id,username,password,level) VALUES (1,'admin', 'e10adc3949ba59abbe56e057f20f883e', 0)";
+            $sql = "
+            CREATE TABLE IF NOT EXISTS `seances` (
+              `id` INTEGER PRIMARY KEY,
+              `cours_id` integer null,
+              `salle_id` integer null,
+              `type_id` INTEGER null,
+              `debut` TIMESTAMP NOT NULL,
+              `fin` TIMESTAMP NOT NULL,
+              FOREIGN KEY (cours_id) REFERENCES cours (id), 
+              FOREIGN KEY (salle_id) REFERENCES salle (id), 
+              FOREIGN KEY (type_id) REFERENCES type (id)              
+            );
+          ";
+            $conn->query($sql);
+
+            $password = password_hash('123456', PASSWORD_BCRYPT);
+
+            $sql = "INSERT or ignore INTO users(id,username,password,level) VALUES (1,'admin','$password', 0)";
             $conn->query($sql);
         } else {
             echo $conn;

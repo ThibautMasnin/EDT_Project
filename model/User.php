@@ -25,7 +25,7 @@ class User
                 Messages::setMsg('Please Fill In All Field', 'error');
             } else {
 
-                $password = md5($_POST['password']);
+                $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
                 try {
 
@@ -60,7 +60,7 @@ class User
 
 
         if (isset($_POST['submit'])) {
-            $password = md5($_POST['password']);
+
 
             try {
 
@@ -68,23 +68,27 @@ class User
                 $conn = $db->Open();
                 if ($conn) {
 
-                    $query = "SELECT * FROM users WHERE username=:username AND password=:password";
+                    $query = "SELECT * FROM users WHERE username=:username";
                     $stmt  = $conn->prepare($query);
                     $stmt->bindValue(':username', $_POST['username']);
-                    $stmt->bindValue(':password', $password);
                     $stmt->execute();
                     $result = $stmt->fetch();
 
                     if (!empty($result)) {
-                        $_SESSION['is_logged_in'] = true;
-                        $_SESSION['user_data'] = array(
-                            "id"     => $result['id'],
-                            "username"    => $result['username'],
-                            "level"    => $result['level']
-                        );
-                        Messages::setMsg('Welcome back ' . $result['username'] . ' !', 'success');
+                        if (password_verify($_POST['password'], $result["password"])) {
+
+                            $_SESSION['is_logged_in'] = true;
+                            $_SESSION['user_data'] = array(
+                                "id"     => $result['id'],
+                                "username"    => $result['username'],
+                                "level"    => $result['level']
+                            );
+                            Messages::setMsg('Welcome back ' . $result['username'] . ' !', 'success');
+                        } else {
+                            Messages::setMsg('Incorrect Login', 'error');
+                        }
                     } else {
-                        Messages::setMsg('Incorrect Login', 'error');
+                        Messages::setMsg('User not found', 'error');
                     }
                 } else {
                     // echo $conn;
