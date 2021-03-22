@@ -45,10 +45,11 @@ require_once(__DIR__ . "/../../middleware/routes.php");
     <title>Emploi du temps</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="/view/asset/style.css?<?= time() ?>">
+
 </head>
 
 <body>
+
     <div class="row message">
         <?php Messages::display(); ?>
     </div>
@@ -80,6 +81,9 @@ require_once(__DIR__ . "/../../middleware/routes.php");
                             <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
                                 <li class="nav-item px-1">
                                     <a class="nav-link" href="/view/user/list.php">Utilisateurs</a>
+                                </li>
+                                <li class="nav-item px-1">
+                                    <a class="nav-link" href="/view/user/formulaire.php">Management</a>
                                 </li>
                                 <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Salles</a>

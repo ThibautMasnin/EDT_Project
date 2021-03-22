@@ -40,7 +40,8 @@ require_once(__DIR__ . "/../../middleware/auth.php");
                         <div class="row">
                             <div class="col-md-4">
 
-                                <button class="btn btn-primary" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 100px;">Modifier</button>
+                                <button class="btn btn-primary btnedit" data-id="<?= $tmp_id ?>" data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 100px;">Modifier</button>
+
                             </div>
                             <div class="col-md-4">
                                 <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">

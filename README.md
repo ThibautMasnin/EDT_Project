@@ -26,7 +26,7 @@ TO CODE:
 
 focus on 3 folders: controller, model and view
 
-each time, create a db matched with a model and controller, and a subfolder with model name 
+each time, create a table matched with a model and controller, and a subfolder with model name 
 for all the views responding to that model
 model name+Controller = Controller name
 

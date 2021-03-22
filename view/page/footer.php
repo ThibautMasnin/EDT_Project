@@ -1,5 +1,5 @@
 </div>
-<footer class="bg-dark text-center text-light">
+<footer class="fixed-bottom bg-dark text-center text-light">
     © 2021 Copyright:
     <a class="text-light" href="/">Junhao LI & Thibaut MASNIN</a>
 </footer>
