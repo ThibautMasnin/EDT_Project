@@ -20,6 +20,7 @@ $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 if (isset($_POST["controller"]) && isset($_POST["action"])) {
     $controller = $_POST["controller"];
     $action = $_POST["action"];
+    $GLOBALS["tables"] = Utility::getTables();
 } else {
     //default: index.php
     $controller = "";
@@ -45,7 +46,7 @@ require_once(__DIR__ . "/../../middleware/routes.php");
     <title>Emploi du temps</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/view/asset/style.css?<?= time() ?>">
 </head>
 
 <body>
@@ -72,25 +73,25 @@ require_once(__DIR__ . "/../../middleware/routes.php");
                         <?php if (isset($_SESSION['is_logged_in'])) : ?>
                             <li class="nav-item px-1">
                                 <a class="nav-link" href="/view/user/planning.php">Consultation</a>
+                                <!-- <form method="post" action="/view/user/formulaire.php">
+                                    <input type="hidden" name="controller" value="SeanceController">
+                                    <input type="hidden" name="action" value="show">
+                                    <input type="hidden" name="promo" value="1">
+                                    <input type="hidden" name="depart" value="1">
+                                </form> -->
                             </li>
-                            <?php if ($_SESSION["user_data"]["level"] < ETU_ROLE) : ?>
-                                <li class="nav-item px-1">
-                                    <a class="nav-link" href="#">Modification</a>
-                                </li>
-                            <?php endif; ?>
+
                             <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
+
                                 <li class="nav-item px-1">
-                                    <a class="nav-link" href="/view/user/list.php">Utilisateurs</a>
+                                    <a id="management-spec" class="nav-link" href="">Management</a>
+                                    <form method="post" action="/view/user/formulaire.php">
+                                        <input type="hidden" name="controller" value="UserController">
+                                        <input type="hidden" name="action" value="formBuilder">
+                                        <input type="hidden" name="tag" value="users">
+                                    </form>
                                 </li>
-                                <li class="nav-item px-1">
-                                    <a class="nav-link" href="/view/user/formulaire.php">Management</a>
-                                </li>
-                                <li class="nav-item px-1">
-                                    <a class="nav-link" href="#">Salles</a>
-                                </li>
-                                <li class="nav-item px-1">
-                                    <a class="nav-link" href="#">Cours</a>
-                                </li>
+
                                 <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Service ETD</a>
                                 </li>

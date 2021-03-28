@@ -4,13 +4,19 @@
     border-left: 1px dashed rgba(33, 37, 41,0.25);
   
 }
-.indent a:active {
-    background-color: lightblue;
-  }
 
-/* .sidebar {
-    background-color: #e3f2fd;
-} */
+
+
+.sidebar {
+    height: 220vh;
+    display: block;
+
+    overflow-y: scroll;
+}
+
+
+
+
 
 /* @media (min-width: 992px) {
     .sidebar {

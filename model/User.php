@@ -15,9 +15,8 @@ class User
     {
 
 
-
-
         if (isset($_POST['submit'])) {
+
 
 
             // validate input before db operation
@@ -33,12 +32,15 @@ class User
                     $conn = $db->Open();
                     if ($conn) {
 
-                        $query = "INSERT INTO users ( username, password, level, promotion ) VALUES (:username, :password, :level, :promotion) ";
+                        $query = "INSERT INTO users ( username, password,first_name,last_name, level, promotion,depart ) VALUES (:username, :password,:first_name,:last_name,:level, :promotion,:depart) ";
                         $stmt  = $conn->prepare($query);
                         $stmt->bindValue(':username', $_POST['username']);
                         $stmt->bindValue(':password', $password);
+                        $stmt->bindValue(':first_name', $_POST['first_name']);
+                        $stmt->bindValue(':last_name', $_POST['last_name']);
                         $stmt->bindValue(':level', $_POST['level']);
                         $stmt->bindValue(':promotion', $_POST['promotion']);
+                        $stmt->bindValue(':depart', $_POST['depart']);
                         $stmt->execute();
                         Messages::setMsg('Insert Successfully', 'success');
                     } else {
@@ -131,6 +133,33 @@ class User
 
         return $result;
     }
+
+    public static function getAllTeachers()
+    {
+        $result = "";
+        try {
+
+            $db = new DB();
+            $conn = $db->Open();
+            if ($conn) {
+
+                $query = "SELECT *  FROM users where level=2";
+                $result  = $conn->query($query)->fetchAll();
+            } else {
+                // echo $conn;
+                Messages::setMsg('Cannot connect to db', 'error');
+            }
+        } catch (PDOException $ex) {
+            // echo $ex->getMessage();
+            Messages::setMsg('Cannot connect to db', 'error');
+        }
+
+        Utility::removeFields($result, ["password"]);
+
+        return $result;
+    }
+
+
     public static function getOne()
     {
         $result = "";
@@ -175,13 +204,19 @@ class User
 
                     $sql = "UPDATE users set "
                         . "username=:username,"
+                        . "first_name=:first_name,"
+                        . "last_name=:last_name,"
                         . "level=:level,"
-                        . "promotion=:promotion"
+                        . "promotion=:promotion,"
+                        . "depart=:depart"
                         . " where id=:id";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindValue(':username', $_POST["username"]);
+                    $stmt->bindValue(':first_name', $_POST["first_name"]);
+                    $stmt->bindValue(':last_name', $_POST["last_name"]);
                     $stmt->bindValue(':level', $_POST["level"]);
                     $stmt->bindValue(':promotion', $_POST["promotion"]);
+                    $stmt->bindValue(':depart', $_POST["depart"]);
                     $stmt->bindValue(':id', $_POST["id"]);
                     $stmt->execute();
 
