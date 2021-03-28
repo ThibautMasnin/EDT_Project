@@ -7,10 +7,8 @@ setlocale(LC_TIME, "fr_FR");
 
 $result = new SeanceController('show');
 $result = $result->show();
-print_r($result);
 
-//
-$dt = new DateTime(date('Y-m-d h:i:s', strtotime($result[0]->debut)));
+$dt = new DateTime(date('m/d/Y h:i:s', strtotime($result[0]->debut)));
 //printf($dt->format('Y-m-d H:i:s'));
 //$dt = new DateTime();
 if (isset($_GET['year']) && isset($_GET['week'])) {
@@ -18,52 +16,66 @@ if (isset($_GET['year']) && isset($_GET['week'])) {
 } else {
     $dt->setISODate($dt->format('o'), $dt->format('W'));
 }
+
+
+
 $year = $dt->format('o');
 $week = $dt->format('W');
 
-print($year);
-echo "<br/>";
-print($week);
-echo "<br/>";
-
+print("Annee : ".$year);
+print(", Semaine : ".$week);
+echo "<br/><br/>";
 
 strtotime('1/1/2011');
 //print_r($result);
-
-
-// 
-foreach ($result as $co) {
-
-    // print_r($cle);
-    // date('Y-m-d h:i:s', strtotime($yourDate));
-    $tmp = date('j', strtotime($co->debut)); // day
-    $tmp3 = date('Y', strtotime($co->debut)); // year
-    $tmp2 = date('n', strtotime($co->fin)); // month
-    $tmp4 = date('H', strtotime($co->fin)); // hour
-    $tmp5 = date('i', strtotime($co->fin)); // minute
-
-    echo $tmp;
-    echo "<br/>";
-    echo $tmp2;
-    echo "<br/>";
-    echo $tmp3;
-    echo "<br/>";
-    echo $tmp4;
-    echo "<br/>";
-    echo $tmp5;
-    echo "<br/>";
-}
-
-
-
-
 ?>
-<a href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week - 1) . '&year=' . $year; ?>">Pre Week</a>
-<a href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year; ?>">Next Week</a>
+
+<table>
+<th></th>
+<?php 
+    $colspan = 1;
+    do {
+        echo '<th colspan='. $colspan .'>'. strftime("%A", $dt->getTimestamp()) ." ". strftime("%d", $dt->getTimestamp()) ."/". strftime("%m", $dt->getTimestamp()) ."/". strftime("%Y", $dt->getTimestamp()) ."</th>\n";
+        $dt->modify('+1 day');
+    } while ($week == $dt->format('W'));
+    for ($i = 8; $i < 20; $i = $i + 0.5) { 
+        $dt->modify('-7 day');
+        echo "<tr>";
+        echo "<th>".sprintf("%02d", intval($i)).":".sprintf("%02d", ($i-intval($i))*60)." - ".sprintf("%02d", intval($i+0.5)).":".sprintf("%02d", ($i+0.5-intval($i+0.5))*60)."</th>";
+        do {
+            $occupied=false;
+            foreach ($result as $co) {
+                if(intval(date('n', strtotime($co->debut)))==intval(strftime("%m", $dt->getTimestamp())) && intval(date('j', strtotime($co->debut)))==intval(strftime("%d", $dt->getTimestamp())) && $i==(intval(date('H', strtotime($co->debut)))+(intval(date('i', strtotime($co->debut))))/60)) {
+                    echo '<td class="cours" rowspan="'. ((intval(date('H', strtotime($co->fin)))-intval(date('H', strtotime($co->debut))))*2+(intval(date('i', strtotime($co->fin)))-intval(date('i', strtotime($co->debut))))/30) .'">'. $co->cours .'</td>';
+                    $occupied=true;
+                }
+                $tmp = date('j', strtotime($co->debut)); // day
+                $tmp2 = date('n', strtotime($co->fin)); // month
+                $tmp3 = date('Y', strtotime($co->debut)); // year
+                $tmp4 = date('H', strtotime($co->fin)); // hour
+                $tmp5 = date('i', strtotime($co->fin)); // minute
+            }
+            if(!$occupied) {
+                echo "<td></td>";
+            }
+            $dt->modify('+1 day');
+        } while ($week == $dt->format('W'));
+        
+
+        echo "</tr>";
+    }
+?>
+</table>
+
+<a href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week - 1) . '&year=' . $year; ?>"><- Precedent</a>
+<a href="<?php echo $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year; ?>">Suivant -></a>
+<br/>
+
+    <!-- 
 <table>
     <tr>
         <td></td>
-        <?php
+        <?php /*
         $colspan = 1;
 
 
@@ -71,11 +83,11 @@ foreach ($result as $co) {
             echo '<td colspan=' . $colspan . '>' . strftime("%A", $dt->getTimestamp()) . " " . strftime("%D", $dt->getTimestamp()) . "</td>\n";
             $dt->modify('+1 day');
         } while ($week == $dt->format('W'));
-        ?>
+        */?>
 
     </tr>
 
-    <?php for ($i = 8; $i <= 20; $i = $i + 0.5) : ?>
+    <?php /*for ($i = 8; $i <= 20; $i = $i + 0.5) : ?>
 
         <?php if (true) :  ?>
             <tr>
@@ -107,10 +119,9 @@ foreach ($result as $co) {
         <?php endif; ?>
 
 
-    <?php endfor; ?>
+    <?php endfor; */ ?>
 
 
-    <!-- 
     <tr>
         <th>08:00</th>
          <td></td>

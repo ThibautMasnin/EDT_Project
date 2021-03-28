@@ -1,15 +1,19 @@
 
    
- table {
-    width: 100%;
-    /* max-width: 150rem; */
-    border: 1px solid black; 
-    border-collapse:collapse
-  } 
-  table tr,th,td{
-    border: 1px solid black;
-  }
-  
+table {
+  width: 100%;
+  /* max-width: 150rem; */
+  border: 1px solid black; 
+  border-collapse:collapse
+} 
+
+table tr,th,td{
+  border: 1px solid black;
+}
+
+.cours {
+  background-color: rgb(200, 200, 240);
+}  
 
 
 /* 
