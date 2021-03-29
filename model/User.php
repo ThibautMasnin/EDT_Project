@@ -109,17 +109,39 @@ class User
         return $result;
     }
 
-    public static function getAll()
+    public static function getAll($offset = null, $limit = null)
     {
-        $result = "";
+        $result = '';
+
         try {
 
             $db = new DB();
             $conn = $db->Open();
             if ($conn) {
 
-                $query = "SELECT *  FROM users";
-                $result  = $conn->query($query)->fetchAll();
+                $query = "SELECT *  FROM users limit ? , ? ";
+
+                $stmt  = $conn->prepare($query);
+                if (isset($limit) && isset($offset)) {
+                    $stmt->execute(array($offset, $limit));
+                    $tmp = $stmt->fetchAll();
+
+
+                    $query = "SELECT COUNT(id) as total FROM (SELECT * FROM users)";
+                    $stmt  = $conn->prepare($query);
+                    $stmt->execute();
+                    $total = $stmt->fetch();
+
+                    Utility::removeFields($tmp, ["password"]);
+                    $result = [];
+                    $result["res"] = $tmp;
+                    $result["total"] = $total;
+                } else {
+                    $query = "SELECT * FROM users";
+                    $stmt  = $conn->query($query)->fetchAll();
+                    $result = $stmt;
+                    Utility::removeFields($result, ["password"]);
+                }
             } else {
                 // echo $conn;
                 Messages::setMsg('Cannot connect to db', 'error');
@@ -128,8 +150,6 @@ class User
             // echo $ex->getMessage();
             Messages::setMsg('Cannot connect to db', 'error');
         }
-
-        Utility::removeFields($result, ["password"]);
 
         return $result;
     }

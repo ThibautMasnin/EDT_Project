@@ -75,8 +75,44 @@ class Utility
 	}
 
 
-	public static function getAll($table)
+	public static function getMax($table)
 	{
+		$total = "";
+		try {
+
+			$db = new DB();
+			$conn = $db->Open();
+			if ($conn) {
+
+				$query = "SELECT COUNT(id) as total FROM (SELECT *FROM $table)";
+				$stmt  = $conn->prepare($query);
+				$stmt->execute();
+				$total = $stmt->fetch();
+			} else {
+				// echo $conn;
+			}
+		} catch (PDOException $ex) {
+			// echo $ex->getMessage();
+		}
+
+
+		return $total;
+	}
+
+
+	public static function getAll($table, $offset = null, $limit = null)
+	{
+
+
+		if ($limit < 0) {
+			Messages::setMsg("wrong limit", "error");
+			return;
+		}
+		if ($offset < 0) {
+			Messages::setMsg("wrong offset", "error");
+			return;
+		}
+
 		if (in_array($table, self::getTables())) {
 
 			try {
@@ -85,9 +121,26 @@ class Utility
 				$conn = $db->Open();
 				if ($conn) {
 
-					$query = "SELECT *  FROM $table";
-					$stmt = $conn->query($query);
-					$result = $stmt->fetchAll();
+					$query = "SELECT *  FROM $table limit ? , ? ";
+
+					$stmt  = $conn->prepare($query);
+					if (isset($limit) && isset($offset)) {
+						$stmt->execute(array($offset, $limit));
+
+						$tmp = $stmt->fetchAll();
+						$query = "SELECT COUNT(id) as total FROM (SELECT * FROM $table)";
+						$stmt  = $conn->prepare($query);
+						$stmt->execute();
+						$total = $stmt->fetch();
+						$result = [];
+						$result["res"] = $tmp;
+						$result["total"] = $total;
+					} else {
+						$query = "SELECT * FROM $table";
+						$stmt  = $conn->prepare($query);
+						$stmt->execute();
+						$result = $stmt->fetchAll();
+					}
 				} else {
 					// echo $conn;
 					Messages::setMsg('Cannot connect to db', 'error');
@@ -97,7 +150,6 @@ class Utility
 				Messages::setMsg('Cannot connect to db', 'error');
 			}
 		}
-
 
 		return $result;
 	}
@@ -291,5 +343,123 @@ class Utility
 			//echo $ex->getMessage();
 			Messages::setMsg('Cannot connect to db', 'error');
 		}
+	}
+
+
+
+	public static function etd_all($offset = null, $limit = null)
+	{
+
+		$sql = "SELECT seance.*, 
+		cours.name as cours,
+		users.id as user_id,
+		users.first_name,
+		users.last_name,
+		courstype.name as type,
+		sum((case
+		     when courstype.id=1 then ROUND((JULIANDAY(fin) - JULIANDAY(debut)) * 24)*1.5
+			 else ROUND((JULIANDAY(fin) - JULIANDAY(debut)) * 24)
+		end )) as etd
+		FROM seance 
+		left join cours on seance.cours_id =cours.id
+		left join users on cours.user_id=users.id 
+		left join courstype on seance.type_id=courstype.id 
+		GROUP by user_id
+		";
+
+		if ($limit < 0) {
+			Messages::setMsg("wrong limit", "error");
+			return;
+		}
+		if ($offset < 0) {
+			Messages::setMsg("wrong offset", "error");
+			return;
+		}
+
+		try {
+
+			$db = new DB();
+			$conn = $db->Open();
+			if ($conn) {
+
+				$query = $sql . " limit ? , ? ";
+				$stmt  = $conn->prepare($query);
+				if (isset($limit) && isset($offset)) {
+					$stmt->execute(array($offset, $limit));
+
+					$tmp = $stmt->fetchAll();
+					$query = "SELECT COUNT(*) as total FROM ( " . $sql . " )";
+					$stmt  = $conn->prepare($query);
+					$stmt->execute();
+					$total = $stmt->fetch();
+					$result = [];
+					$result["res"] = $tmp;
+					$result["total"] = $total;
+				} else {
+					// only count maximum records when no arguments
+					$query = "SELECT COUNT(*) as total FROM ( " . $sql . " )";
+					$stmt  = $conn->prepare($query);
+					$stmt->execute();
+					$total = $stmt->fetch();
+					$result = [];
+					$result["total"] = $total;
+				}
+			} else {
+				// echo $conn;
+				Messages::setMsg('Cannot connect to db', 'error');
+			}
+		} catch (PDOException $ex) {
+			//echo $ex->getMessage();
+			Messages::setMsg('Cannot connect to db', 'error');
+		}
+
+
+		return $result;
+	}
+
+	public static function etd_one()
+	{
+		$sql = "select * from (SELECT seance.*, 
+		cours.name as cours,
+		users.id as user_id,
+		users.first_name,
+		users.last_name,
+		courstype.name as type,
+		sum((case
+		     when courstype.id=1 then ROUND((JULIANDAY(fin) - JULIANDAY(debut)) * 24)*1.5
+			 else ROUND((JULIANDAY(fin) - JULIANDAY(debut)) * 24)
+		end )) as etd
+		FROM seance 
+		left join cours on seance.cours_id =cours.id
+		left join users on cours.user_id=users.id 
+		left join courstype on seance.type_id=courstype.id
+		GROUP by user_id
+		)
+		";
+
+
+		$result = "";
+		$id = "";
+		try {
+
+			$db = new DB();
+			$conn = $db->Open();
+			if (isset($_SESSION["user_data"])) {
+				$id = $_SESSION["user_data"]["id"];
+			}
+			if ($conn) {
+
+				$query = $sql . " where user_id=" . $id;
+				$result  = $conn->query($query)->fetch();
+			} else {
+				// echo $conn;
+				Messages::setMsg('Cannot connect to db', 'error');
+			}
+		} catch (PDOException $ex) {
+			// echo $ex->getMessage();
+			Messages::setMsg('Cannot connect to db', 'error');
+		}
+
+		return $result;
 	}
 }

@@ -59,7 +59,7 @@ require_once(__DIR__ . "/../../middleware/routes.php");
 
         <div class="row bg-dark">
             <div class="col-lg-2 navbar">
-                <a class="navbar-brand" href="/" style="color: white;">
+                <a class="navbar-brand" href="" style="color: white;">
                     <img src="/view/asset/logo.png" width="30" height="30" alt="Logo">
                     Planning
                 </a>
@@ -72,29 +72,39 @@ require_once(__DIR__ . "/../../middleware/routes.php");
                     <ul class="navbar-nav">
                         <?php if (isset($_SESSION['is_logged_in'])) : ?>
                             <li class="nav-item px-1">
-                                <a class="nav-link" href="/view/user/planning.php">Consultation</a>
-                                <!-- <form method="post" action="/view/user/formulaire.php">
+                                <a id="consultation-spec" class="nav-link" href="">Consultation</a>
+                                <form method="post" action="/view/user/planning.php">
                                     <input type="hidden" name="controller" value="SeanceController">
                                     <input type="hidden" name="action" value="show">
-                                    <input type="hidden" name="promo" value="1">
-                                    <input type="hidden" name="depart" value="1">
-                                </form> -->
+                                    <?php if ($_SESSION['user_data']['level'] == ETU_ROLE) : ?>
+                                        <?php
+                                        $u = new UserController('getOne');
+                                        $u = $u->getOne();
+                                        ?>
+                                        <input type="hidden" name="form_promo" value="<?= $u['promotion'] ?>">
+                                        <input type="hidden" name="form_depart" value="<?= $u['depart'] ?>">
+                                    <?php else : ?>
+                                        <input type="hidden" name="form_promo" value="<?= PROMO_ARR[0]['id'] ?>">
+                                        <input type="hidden" name="form_depart" value="<?= DEPART_ARR[0]['id'] ?>">
+                                        <input type="hidden" name="seance_by" value="1">
+                                    <?php endif; ?>
+
+
+                                </form>
+
                             </li>
 
-                            <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
+                            <?php if ($_SESSION["user_data"]["level"] <= PROF_ROLE) : ?>
 
                                 <li class="nav-item px-1">
                                     <a id="management-spec" class="nav-link" href="">Management</a>
                                     <form method="post" action="/view/user/formulaire.php">
                                         <input type="hidden" name="controller" value="UserController">
                                         <input type="hidden" name="action" value="formBuilder">
-                                        <input type="hidden" name="tag" value="users">
+                                        <input type="hidden" name="tag" value="seance">
                                     </form>
                                 </li>
 
-                                <li class="nav-item px-1">
-                                    <a class="nav-link" href="#">Service ETD</a>
-                                </li>
                             <?php endif; ?>
                             <li class="nav-item px-1">
                                 <a class="nav-link" href="/view/user/userInformation.php">Profil</a>

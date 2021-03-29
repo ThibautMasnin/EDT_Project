@@ -69,6 +69,13 @@ management.addEventListener("click", function (event) {
     form.submit();
 });
 
+let consultation = document.getElementById("consultation-spec");
+consultation.addEventListener("click", function (event) {
+    event.preventDefault();
+    let form = consultation.nextElementSibling;
+    //  console.log(form);
+    form.submit();
+});
 
 
 

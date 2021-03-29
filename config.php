@@ -10,6 +10,7 @@ $allCours = Utility::getAll('cours');
 
 
 
+
 define("ADMIN_ROLE", $allRoles[0]['id']);
 define("PROF_ROLE", $allRoles[1]['id']);
 define("ETU_ROLE", $allRoles[2]['id']);

@@ -3,6 +3,55 @@ require_once(__DIR__ . "/../page/app.php");
 require_once(__DIR__ . "/../page/header.php");
 require_once(__DIR__ . "/../../middleware/auth.php");
 require_once(__DIR__ . "/../../middleware/adminOnly.php");
+
+
+
+
+$offset = 0;
+$limit = 3;
+
+if (!empty($_POST["limit"])) {
+    $limit = $_POST["limit"];
+    $_SESSION["limit"] = $limit;
+} else if (isset($_SESSION["limit"])) {
+    $limit = $_SESSION["limit"];
+}
+
+
+
+if (isset($_POST["previous"]) || isset($_POST["next"])) {
+
+    $total_pages = ceil(Utility::getMax($tag)["total"] / $limit);
+
+
+    if (isset($_POST["previous"])) {
+        $current = $_POST["current"] - 1;
+    } elseif (isset($_POST["next"])) {
+        $current = $_POST["current"] + 1;
+    }
+
+    if ($current == 1) {
+        $offset = 0;
+    } else {
+        $offset = ($current - 1) * $limit;
+    }
+
+
+
+    $res = Utility::getAll($tag, $offset, $limit);
+    $result = $res["res"];
+} else {
+
+    $res = Utility::getAll($tag, $offset, $limit);
+    if (!empty($res)) {
+        $result = $res["res"];
+        $total_pages = ceil($res["total"]["total"] / $limit);
+        $current = 1;
+    }
+}
+
+
+
 ?>
 
 <div class="container">
@@ -10,8 +59,43 @@ require_once(__DIR__ . "/../../middleware/adminOnly.php");
         <h3><?= strtoupper($tag) ?></h3>
     </div>
     <br />
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 100px;">Ajouter</button>
-    <br /><br />
+
+
+
+    <div class="row">
+
+        <div class="col-2">
+
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 100px;">Ajouter</button>
+
+        </div>
+        <div class="col-4">
+            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+
+                <div class="col input-group mb-3">
+
+                    <input name="limit" type="number" min="1" class="form-control" placeholder="<?= isset($_SESSION["limit"]) ? $_SESSION["limit"] : 3 ?> rangs par page">
+                    <button type="submit" class="btn btn-info" type="button">Rafraichir</button>
+                </div>
+        </div>
+        <div class="col-6">
+            <input type="hidden" name="max" value="<?= $total_pages ?>" />
+            <ul class="col pagination justify-content-end">
+                <li class="page-item <?= $current <= 1 ? "disabled" : "" ?>">
+                    <input type="submit" name="previous" value="Previous" class="page-link" />
+                </li>
+                <input type="hidden" name="current" value="<?= $current ?>" />
+                <li class="page-item"><a class="page-link" href="#"><?= $current ?></a></li>
+                <li class="page-item <?= $current == $total_pages ? "disabled" : "" ?>">
+                    <input type="submit" name="next" value="Next" class="page-link" />
+                </li>
+            </ul>
+        </div>
+
+        </form>
+
+    </div>
+
 
 
     <table class="table table-hover table-striped border">
@@ -29,9 +113,7 @@ require_once(__DIR__ . "/../../middleware/adminOnly.php");
             </tr>
         </thead>
         <tbody id="tbody">
-            <?php
-            $result = Utility::getAll($tag);
-            ?>
+
             <?php if (!empty($result)) : ?>
                 <?php foreach ($result as $rec) : ?>
                     <?php $tmp_id = $rec['id']; ?>

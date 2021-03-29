@@ -31,11 +31,11 @@ class UserController extends Controller
         }
     }
 
-    public function getAll()
+    public function getAll($offset = null, $limit = null)
     {
         $res = [];
         if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
-            $res = User::getAll();
+            $res = User::getAll($offset, $limit);
         }
 
         return $res;
@@ -44,7 +44,7 @@ class UserController extends Controller
     public function getAllTeachers()
     {
         $res = [];
-        if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
+        if ($_SESSION['user_data']['level'] <= PROF_ROLE) {
             $res = User::getAllTeachers();
         }
 
@@ -75,14 +75,14 @@ class UserController extends Controller
 
     public function formBuilder()
     {
-        if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
+        if ($_SESSION['user_data']['level'] <= PROF_ROLE) {
             $_SESSION['form_name'] = $_POST['tag'];
         }
     }
 
     public function crud()
     {
-        if ($_SESSION['user_data']['level'] == ADMIN_ROLE) {
+        if ($_SESSION['user_data']['level'] <= PROF_ROLE) {
 
             if (isset($_POST['create'])) {
                 Utility::createData();

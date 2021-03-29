@@ -27,9 +27,19 @@ class Cours
 
 
 
-    public static function getAll()
+    public static function getAll($offset = null, $limit = null)
     {
-        $result = "";
+
+
+        if ($limit < 0) {
+            Messages::setMsg("wrong limit", "error");
+            return;
+        }
+        if ($offset < 0) {
+            Messages::setMsg("wrong offset", "error");
+            return;
+        }
+        $result = '';
         try {
 
             $db = new DB();
@@ -43,8 +53,29 @@ class Cours
                 left join users on cours.user_id=users.id 
                 left join promotion on cours.promo_id=promotion.id 
                 left join department on cours.depart_id=department.id 
+                limit ?,?
                 ";
-                $result  = $conn->query($query)->fetchAll();
+
+                $stmt  = $conn->prepare($query);
+                if (isset($limit) && isset($offset)) {
+                    $stmt->execute(array($offset, $limit));
+                    $tmp = $stmt->fetchAll();
+
+                    if (!empty($tmp)) {
+                        $rep = [];
+                        foreach ($tmp as $val) {
+                            $rep[] = new Cours($val);
+                        }
+                    }
+
+                    $query = "SELECT COUNT(id) as total FROM (SELECT * FROM cours)";
+                    $stmt  = $conn->prepare($query);
+                    $stmt->execute();
+                    $total = $stmt->fetch();
+                    $result = [];
+                    $result["res"] = $rep;
+                    $result["total"] = $total;
+                }
             } else {
                 // echo $conn;
                 Messages::setMsg('Cannot connect to db', 'error');
@@ -54,14 +85,6 @@ class Cours
             Messages::setMsg('Cannot connect to db', 'error');
         }
 
-        if (!empty($result)) {
-            $rep = [];
-            foreach ($result as $val) {
-                $rep[] = new Cours($val);
-            }
-
-            return $rep;
-        }
 
         return $result;
     }

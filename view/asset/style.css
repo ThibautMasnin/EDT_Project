@@ -8,10 +8,14 @@
 
 
 .sidebar {
-    height: 220vh;
+    height: 200vh;
     display: block;
 
     overflow-y: scroll;
+}
+
+.navbar-light .navbar-nav .nav-link.active{
+    color:red!important;
 }
 
 
