@@ -61,7 +61,7 @@ require_once(__DIR__ . "/../../middleware/auth.php");
             <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
 
                 <li class="nav-link-dropdown">
-                    <a href="#mSubmenu" data-bs-toggle="collapse" aria-expanded="true" class="nav-link dropdown-toggle">Miscellaneous</a>
+                    <a href="#mSubmenu" data-bs-toggle="collapse" aria-expanded="true" class="nav-link dropdown-toggle">Divers</a>
                     <div class="indent">
                         <ul class="collapse list-unstyled show" id="mSubmenu">
                             <li class="nav-item">

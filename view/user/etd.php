@@ -4,9 +4,6 @@ require_once(__DIR__ . "/../page/header.php");
 require_once(__DIR__ . "/../../middleware/auth.php");
 
 ?>
-<div>
-    <h2>SERVICE ETD</h2>
-</div>
 <?php if ($_SESSION["user_data"]["level"] == ADMIN_ROLE) : ?>
 
     <?php
@@ -59,9 +56,9 @@ require_once(__DIR__ . "/../../middleware/auth.php");
     ?>
 
     <div class="container">
-        <div class="row">
-
-        </div>
+    <div class="row">
+        <h3>SERVICE ETD</h3>
+    </div>
         <br />
 
 

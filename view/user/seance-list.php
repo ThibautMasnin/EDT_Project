@@ -67,16 +67,13 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
 
     <div class="row">
 
-        <div class="col-2">
-
+        <div class="col-1">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 100px;">Ajouter</button>
-
         </div>
         <div class="col-2">
-
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPlusModal" style="width: 100px;">Repetition</button>
-
         </div>
+
         <div class="col-4">
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
 
@@ -263,8 +260,8 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="update" value="seance" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" name="update" value="seance" class="btn btn-primary">Sauvegarder</button>
                 </div>
             </form>
         </div>
@@ -276,7 +273,7 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add</h5>
+                <h5 class="modal-title">Ajouter</h5>
             </div>
             <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                 <div class="modal-body">
@@ -357,8 +354,8 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="create" value="seance" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" name="create" value="seance" class="btn btn-primary">Sauvegarder</button>
                 </div>
             </form>
         </div>
@@ -371,7 +368,7 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Repeat</h5>
+                <h5 class="modal-title">Repeter</h5>
             </div>
             <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                 <div class="modal-body">
@@ -485,8 +482,8 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="create" value="seance" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" name="create" value="seance" class="btn btn-primary">Sauvegarder</button>
                 </div>
             </form>
         </div>

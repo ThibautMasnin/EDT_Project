@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . "/../page/app.php");
 if (isset($_SESSION['is_logged_in'])) {
-    header('Location: ' . "/view/user/planning.php");
+    header('Location: ' . "/view/user/userInformation.php");
     exit();
 }
 

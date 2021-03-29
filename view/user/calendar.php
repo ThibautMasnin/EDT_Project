@@ -3,7 +3,7 @@
 
 <?php
 date_default_timezone_set('Europe/Paris');
-setlocale(LC_TIME, "fr_FR");
+setlocale(LC_TIME, "fr_FR", "french");
 //--------------------
 
 $result = '';
@@ -55,6 +55,7 @@ function generateColor($str)
 ?>
 
 
+<br/>   
 <div class="row">
     <div class="col-1">
         <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
@@ -78,7 +79,6 @@ function generateColor($str)
             <button class="btn btn-success" type="submit">Precedent</button>
         </form>
     </div>
-    <div class="col-1"></div>
     <div class="col-1">
         <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
             <input type="hidden" name="controller" value="SeanceController">
@@ -102,8 +102,8 @@ function generateColor($str)
         </form>
     </div>
 </div>
-
-<table class="table table-striped border">
+<br/>
+<table class="table table-striped table-bordered border">
     <th></th>
     <?php
     //Affiche la première ligne avec les jours de la semaine
@@ -141,10 +141,10 @@ function generateColor($str)
             foreach ($result as $co) {
                 //Teste si le cours correspond à l'heure de la case
                 if (
-                    intval(date('n', strtotime($co->debut))) == intval(strftime("%m", $dt->getTimestamp()))
-                    && intval(date('j', strtotime($co->debut))) == intval(strftime("%d", $dt->getTimestamp()))
-                    && $i >= (intval(date('H', strtotime($co->debut))) + (intval(date('i', strtotime($co->debut)))) / 60)
-                    && $i <= (intval(date('H', strtotime($co->fin))) + (intval(date('i', strtotime($co->fin)))) / 60)
+                    intval(date('n', strtotime($co->debut))) == intval(strftime("%m", $dt->getTimestamp())) && 
+                    intval(date('j', strtotime($co->debut))) == intval(strftime("%d", $dt->getTimestamp())) && 
+                    $i >= (intval(date('H', strtotime($co->debut))) + (intval(date('i', strtotime($co->debut)))) / 60) && 
+                    $i <= (intval(date('H', strtotime($co->fin))) + (intval(date('i', strtotime($co->fin)))) / 60)
                 ) {
                     $occupied = true;
                     //On creer la case du cours si c'est sa premiere demi heure

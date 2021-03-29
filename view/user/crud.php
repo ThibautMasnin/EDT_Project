@@ -154,7 +154,7 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit</h5>
+                <h5 class="modal-title">Modifier</h5>
             </div>
             <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                 <div class="modal-body">
@@ -182,8 +182,8 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="update" value="<?= $tag ?>" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" name="update" value="<?= $tag ?>" class="btn btn-primary">Sauvegarder</button>
                 </div>
             </form>
         </div>
@@ -195,7 +195,7 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add</h5>
+                <h5 class="modal-title">Ajouter</h5>
             </div>
             <form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
                 <div class="modal-body">
@@ -225,8 +225,8 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="create" value="<?= $tag ?>" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" name="create" value="<?= $tag ?>" class="btn btn-primary">Sauvegarder</button>
                 </div>
             </form>
         </div>
