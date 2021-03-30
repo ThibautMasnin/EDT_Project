@@ -70,6 +70,7 @@ if (isset($_POST["previous"]) || isset($_POST["next"])) {
         <div class="col-1">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 100px;">Ajouter</button>
         </div>
+        <div class="col-1"></div>
         <div class="col-2">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPlusModal" style="width: 100px;">Repetition</button>
         </div>
